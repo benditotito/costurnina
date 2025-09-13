@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Costurnina · Hecho a mano</title>
+  <meta name="description" content="Artesanía en ganchillo, costura y punto de cruz. Hecho a mano por mamá. Encargos por email.">
+  <!--
+  ⚠️ INSTRUCCIONES (sin carpetas):
+  - Sube este archivo como index.html a la RAÍZ del repositorio.
+  - Sube todas las imágenes a la RAÍZ también (nada de /assets).
+  - Renombra tus fotos a estos nombres (o cámbialos aquí):
+    presentacion-1.jpg, presentacion-2.jpg
+    madre-1.jpg, madre-2.jpg, madre-3.jpg, madre-4.jpg, trabajando-1.jpg, trabajando-2.jpg
+    bolso-rana.png, rosa-arcoiris.png, ramo-rosas.png, rosa-roja.png
+  - Cambia el EMAIL_DESTINO más abajo si hace falta.
+  -->
+  <style>
+    :root{
+      --bg:#0b0c10; --bg2:#0e1117; --card:#111319; --text:#eaf2f8; --muted:#a7b3bd;
+      --brand:#69b1ff; --brand2:#ffd166; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--brand);text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* Header / nav */
+    header{position:sticky;top:0;z-index:50;background:rgba(10,12,16,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .wrap{max-width:1200px;margin:0 auto;padding:18px}
+    .row{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .logo{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:var(--shadow)}
+    nav{display:flex;gap:12px;flex-wrap:wrap}
+    nav a{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);}
+
+    /* Hero */
+    .hero{padding:36px 18px}
+    .hero-grid{display:grid;gap:18px;grid-template-columns:1.1fr .9fr;align-items:center}
+    @media(max-width:860px){.hero-grid{grid-template-columns:1fr}}
+    .kicker{color:var(--brand2);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    h1{font-size:clamp(28px,4.4vw,48px);margin:6px 0 10px}
+    .lead{color:var(--muted);max-width:60ch}
+    .cta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,rgba(105,177,255,.18),rgba(255,209,102,.18));border-color:rgba(255,255,255,.22)}
+    .hero-photo{aspect-ratio:4/3;border-radius:20px;background:#0b0e14 url('presentacion-1.jpg') center/cover no-repeat;border:1px solid rgba(255,255,255,.06);box-shadow:var(--shadow)}
+
+    /* Secciones genéricas */
+    section{padding:24px 18px}
+    h2{font-size:clamp(22px,3vw,30px);margin:6px 0 2px}
+    .sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+    /* Presentación de mamá */
+    .about{display:grid;gap:18px;grid-template-columns:1fr 1fr;align-items:center}
+    @media(max-width:900px){.about{grid-template-columns:1fr}}
+    .about .photo{aspect-ratio:4/3;border-radius:18px;background:#0b0e14 url('presentacion-2.jpg') center/cover no-repeat;border:1px solid rgba(255,255,255,.06)}
+    .about .copy{padding:16px}
+
+    /* Galería de fotos del taller */
+    .gallery{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}
+    @media(min-width:720px){.gallery{grid-template-columns:repeat(3,1fr)}}
+    .thumb{aspect-ratio:4/3;border-radius:14px;background:#0b0e14 center/cover no-repeat;border:1px solid rgba(255,255,255,.06);cursor:pointer}
+
+    /* Catálogo */
+    .toolbar{display:grid;grid-template-columns:1fr auto;gap:12px;margin:8px 0 6px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);cursor:pointer}
+    .chip.active{background:linear-gradient(135deg,rgba(105,177,255,.15),rgba(255,209,102,.15));border-color:rgba(255,255,255,.22)}
+    .search{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.03)}
+    .search input{all:unset;width:220px}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(1,minmax(0,1fr));}
+    @media(min-width:680px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:980px){.grid{grid-template-columns:repeat(3,1fr)}}
+    .p-card{overflow:hidden;display:flex;flex-direction:column}
+    .p-thumb{aspect-ratio:4/3;background:#0b0e14 center/cover no-repeat}
+    .content{padding:12px 12px 8px}
+    .title{font-weight:700;font-size:16px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+    .tag{font-size:12px;color:#0b0c10;background:linear-gradient(135deg,var(--brand),var(--brand2));padding:4px 8px;border-radius:999px}
+    .desc{color:var(--muted);font-size:14px;margin:6px 0 10px;min-height:38px}
+    .actions{display:flex;gap:10px;margin:6px 0 12px}
+
+    /* Barra de pedido */
+    .dock{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:60;max-width:1200px;width:calc(100% - 24px);}
+    .dock-inner{background:rgba(17,19,25,.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px}
+    .pill{font-size:13px;color:var(--muted)}
+
+    /* Modal reutilizable */
+    dialog{border:none;border-radius:18px;max-width:860px;width:calc(100% - 24px);background:#0e1218;color:var(--text);box-shadow:var(--shadow)}
+    dialog::backdrop{background:rgba(0,0,0,.55)}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .modal-body{padding:14px}
+
+    footer{border-top:1px solid rgba(255,255,255,.06);margin-top:24px;background:rgba(10,12,16,.45)}
+    .footer-grid{display:grid;gap:18px;grid-template-columns:1fr}
+    @media(min-width:720px){.footer-grid{grid-template-columns:1.2fr .8fr}}
+    .footer-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:14px}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap row">
+      <div class="brand"><div class="logo"></div><div>Costurnina</div></div>
+      <nav aria-label="Principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#presentacion">Quiénes somos</a>
+        <a href="#fotos">Fotos</a>
+        <a href="#catalogo">Productos</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO / PRESENTACIÓN CORTA -->
+  <section id="inicio" class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="kicker">Hecho a mano en Barcelona</div>
+        <h1>Artesanía en ganchillo, costura y punto de cruz</h1>
+        <p class="lead">Cada pieza está creada por <strong id="nombreMadre">tu madre</strong> con mimo y detalle. Trabajamos por encargo para que recibas algo único, pensado para ti.</p>
+        <div class="cta">
+          <a class="btn primary" href="#presentacion">Conoce el taller</a>
+          <a class="btn" href="#catalogo">Ver productos</a>
+        </div>
+      </div>
+      <div class="hero-photo" role="img" aria-label="Foto de presentación"></div>
+    </div>
+  </section>
+
+  <!-- PRESENTACIÓN LARGA -->
+  <section id="presentacion">
+    <div class="wrap about card">
+      <div class="photo" role="img" aria-label="Retrato en el taller"></div>
+      <div class="copy">
+        <h2>El taller de <span id="nombreMadre2">tu madre</span></h2>
+        <p class="sub">Personaliza este texto con su historia.</p>
+        <p>Hola, soy <strong id="nombreMadre3">tu madre</strong>. Desde pequeña me apasiona el hilo y la aguja. En Costurnina doy vida a <em>amigurumis</em>, bolsos, rosas de crochet, detalles de costura y bastidores en punto de cruz. Me encanta trabajar por encargo: tú me cuentas tu idea y yo la convierto en una pieza única.</p>
+        <p>Materiales de calidad, acabados cuidados y un proceso artesanal en cada paso. Si tienes un regalo especial en mente, estaré encantada de ayudarte.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOTOS DEL TALLER -->
+  <section id="fotos">
+    <div class="wrap">
+      <h2>Fotos del taller</h2>
+      <p class="sub">Retratos y momentos trabajando.</p>
+      <div class="gallery">
+        <div class="thumb" style="background-image:url('madre-1.jpg')" data-full="madre-1.jpg" aria-label="Retrato 1"></div>
+        <div class="thumb" style="background-image:url('madre-2.jpg')" data-full="madre-2.jpg" aria-label="Retrato 2"></div>
+        <div class="thumb" style="background-image:url('madre-3.jpg')" data-full="madre-3.jpg" aria-label="Retrato 3"></div>
+        <div class="thumb" style="background-image:url('madre-4.jpg')" data-full="madre-4.jpg" aria-label="Retrato 4"></div>
+        <div class="thumb" style="background-image:url('trabajando-1.jpg')" data-full="trabajando-1.jpg" aria-label="Trabajando 1"></div>
+        <div class="thumb" style="background-image:url('trabajando-2.jpg')" data-full="trabajando-2.jpg" aria-label="Trabajando 2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO -->
+  <section id="catalogo">
+    <div class="wrap">
+      <h2>Catálogo</h2>
+      <p class="sub">Selecciona artículos para armar tu pedido por email. No hay compra online.</p>
+
+      <div class="toolbar">
+        <div class="chips" role="tablist" aria-label="Filtrar por categoría">
+          <button class="chip active" data-filter="all" role="tab" aria-selected="true">Todo</button>
+          <button class="chip" data-filter="ganchillo" role="tab">Ganchillo</button>
+          <button class="chip" data-filter="costura" role="tab">Costura</button>
+          <button class="chip" data-filter="punto" role="tab">Punto de cruz</button>
+        </div>
+        <label class="search" aria-label="Buscar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="q" placeholder="Buscar color, tipo, tamaño…" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="grid" id="grid">
+        <!-- PRODUCTOS DE EJEMPLO (usa tus fotos reales en la raíz) -->
+        <article class="card p-card" data-category="ganchillo" data-title="Bolso rana" data-tags="bolso, rana, verde, infantil, amigurumi">
+          <div class="p-thumb" style="background-image:url('bolso-rana.png')" role="img" aria-label="Bolso rana"></div>
+          <div class="content">
+            <div class="title">Bolso rana · Ganchillo</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Hecho a mano</span></div>
+            <p class="desc">Bolso de crochet con carita de rana y asa trenzada. Colores y tamaño personalizables.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card p-card" data-category="ganchillo" data-title="Rosa arcoíris" data-tags="flor, rosa, arcoiris, regalo, san jordi">
+          <div class="p-thumb" style="background-image:url('rosa-arcoiris.png')" role="img" aria-label="Rosa arcoíris"></div>
+          <div class="content">
+            <div class="title">Rosa arcoíris · Crochet</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Personalizable</span></div>
+            <p class="desc">Rosa multicolor tejida a mano. Ideal para regalo. Se puede elegir combinación de colores.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card p-card" data-category="ganchillo" data-title="Ramo de rosas" data-tags="ramo, rosas, colores, decoración">
+          <div class="p-thumb" style="background-image:url('ramo-rosas.png')" role="img" aria-label="Ramo de rosas"></div>
+          <div class="content">
+            <div class="title">Ramo de rosas · Crochet</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">A medida</span></div>
+            <p class="desc">Composición de rosas de crochet. Cantidad y colores a elegir.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card p-card" data-category="ganchillo" data-title="Rosa roja" data-tags="rosa, roja, detalle, hecho a mano">
+          <div class="p-thumb" style="background-image:url('rosa-roja.png')" role="img" aria-label="Rosa roja"></div>
+          <div class="content">
+            <div class="title">Rosa roja · Crochet</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Regalo</span></div>
+            <p class="desc">Rosa de crochet con envoltorio de malla. Perfecta para detalles especiales.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Barra de pedido por email -->
+  <div class="dock" aria-live="polite">
+    <div class="dock-inner">
+      <div class="pill" id="pedidoInfo">Pedido vacío</div>
+      <div class="row">
+        <button class="btn" id="btnVaciar">Vaciar</button>
+        <button class="btn primary" id="btnEnviar">Enviar pedido por email</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal reutilizable (detalles + lightbox de fotos) -->
+  <dialog id="modal">
+    <div class="modal-header">
+      <strong id="mTitle">Detalles</strong>
+      <button class="btn" id="mClose">Cerrar</button>
+    </div>
+    <div class="modal-body">
+      <div class="p-thumb" id="mImg" style="border-radius:14px"></div>
+      <p class="desc" id="mDesc" style="margin-top:12px"></p>
+      <div class="small">Consejo: cuando nos escribas, indícanos medidas, colores y cualquier personalización que quieras.</div>
+    </div>
+  </dialog>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="wrap footer-grid">
+      <div class="footer-card">
+        <h2>Contacto</h2>
+        <p class="small">Email: <a id="emailPublico" href="mailto:costurnina@gmail.com">costurnina@gmail.com</a><br>Instagram: <a href="https://instagram.com/costurnina" target="_blank" rel="noopener">@costurnina</a></p>
+      </div>
+      <div class="footer-card">
+        <h2>Sobre el taller</h2>
+        <p class="small">Piezas hechas a mano en Barcelona. Trabajamos por encargo para que cada pieza sea única. Tiempo de elaboración estimado: 3–10 días según el encargo.</p>
+      </div>
+    </div>
+    <div class="wrap small" style="opacity:.7; padding:14px 18px 70px">© <span id="year"></span> Costurnina — Artesanía</div>
+  </section>
+
+  <script>
+    // ===== CONFIG =====
+    const EMAIL_DESTINO = 'costurnina@gmail.com'; // cámbialo si hace falta
+    const NOMBRE_MADRE = 'tu madre'; // pon aquí el nombre (ej: 'María')
+
+    // Rellena el nombre automáticamente
+    document.getElementById('nombreMadre').textContent = NOMBRE_MADRE;
+    document.getElementById('nombreMadre2').textContent = NOMBRE_MADRE;
+    document.getElementById('nombreMadre3').textContent = NOMBRE_MADRE;
+
+    // ===== GALERÍA FOTOS (lightbox sencillo reutilizando el modal) =====
+    document.querySelectorAll('.gallery .thumb').forEach(el => {
+      el.addEventListener('click', ()=>{
+        const modal = document.getElementById('modal');
+        document.getElementById('mTitle').textContent = 'Foto del taller';
+        document.getElementById('mDesc').textContent = '';
+        const url = el.getAttribute('data-full') || '';
+        document.getElementById('mImg').setAttribute('style', `background-image:url('${url}');border-radius:14px;aspect-ratio:4/3;background-size:cover;background-position:center;`);
+        modal.showModal();
+      });
+    });
+
+    // ===== CATÁLOGO =====
+    const pedido = [];
+    const chips = document.querySelectorAll('.chip');
+    const grid = document.getElementById('grid');
+    const q = document.getElementById('q');
+    const pedidoInfo = document.getElementById('pedidoInfo');
+
+    chips.forEach(ch => ch.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      ch.classList.add('active');
+      const f = ch.dataset.filter;
+      [...grid.children].forEach(card => {
+        const show = f === 'all' || card.dataset.category === f;
+        card.style.display = show ? '' : 'none';
+      });
+    }));
+
+    q.addEventListener('input', () => {
+      const term = q.value.toLowerCase();
+      [...grid.children].forEach(card => {
+        const hay = (card.dataset.title + ' ' + card.dataset.tags).toLowerCase().includes(term);
+        card.style.opacity = hay ? 1 : .15;
+        card.style.pointerEvents = hay ? 'auto' : 'none';
+      });
+    });
+
+    grid.addEventListener('click', (e) => {
+      const card = e.target.closest('.card');
+      if (!card) return;
+      if (e.target.matches('[data-add]')) {
+        const nombre = card.querySelector('.title').textContent.trim();
+        pedido.push(nombre);
+        renderPedido();
+      }
+      if (e.target.matches('[data-details]')) {
+        const modal = document.getElementById('modal');
+        document.getElementById('mTitle').textContent = card.querySelector('.title').textContent;
+        document.getElementById('mDesc').textContent = card.querySelector('.desc').textContent;
+        const style = card.querySelector('.p-thumb').getAttribute('style') || '';
+        document.getElementById('mImg').setAttribute('style', style + '; border-radius:14px');
+        modal.showModal();
+      }
+    });
+
+    document.getElementById('mClose').addEventListener('click', () => document.getElementById('modal').close());
+
+    document.getElementById('btnVaciar').addEventListener('click', () => { pedido.length = 0; renderPedido(); });
+    document.getElementById('btnEnviar').addEventListener('click', () => {
+      const asunto = encodeURIComponent('Encargo Costurnina');
+      const cuerpo = encodeURIComponent(
+        `Hola, me gustaría encargar:\n\n` +
+        (pedido.length ? `Artículos seleccionados:\n- ${pedido.join('\n- ')}\n\n` : '') +
+        `Detalles (colores, medidas, fecha límite, etc.):\n`);
+      window.location.href = `mailto:${EMAIL_DESTINO}?subject=${asunto}&body=${cuerpo}`;
+    });
+
+    function renderPedido(){
+      if (pedido.length === 0) pedidoInfo.textContent = 'Pedido vacío';
+      else pedidoInfo.textContent = `${pedido.length} artículo(s): ` + pedido.join(' · ');
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('modal'); if(m.open) m.close(); }});
+  </script>
+</body>
+</html>
