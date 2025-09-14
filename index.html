@@ -290,20 +290,9 @@
 
     // ===== CATÁLOGO =====
     const pedido = [];
-    const chips = document.querySelectorAll('.chip');
     const grid = document.getElementById('grid');
     const q = document.getElementById('q');
     const pedidoInfo = document.getElementById('pedidoInfo');
-
-    chips.forEach(ch => ch.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
-      ch.classList.add('active');
-      const f = ch.dataset.filter;
-      [...grid.children].forEach(card => {
-        const show = f === 'all' || card.dataset.category === f;
-        card.style.display = show ? '' : 'none';
-      });
-    }));
 
     q.addEventListener('input', () => {
       const term = q.value.toLowerCase();
