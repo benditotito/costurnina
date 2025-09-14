@@ -215,14 +215,16 @@
 
   <!-- Barra de pedido por email (TEXTO LIBRE) -->
   <div class="dock" aria-live="polite">
-    <form class="dock-inner" id="pedidoForm">
-      <textarea id="pedidoTexto" rows="2" placeholder="Escribe aquí tu pedido: producto(s), colores, medidas, fecha, etc."></textarea>
-      <div class="row">
-        <button type="button" class="btn" id="btnVaciar">Vaciar</button>
-        <button type="submit" class="btn primary" id="btnEnviar">Enviar pedido por email</button>
-      </div>
-    </form>
-  </div>
+  <form class="dock-inner" id="pedidoForm">
+    <textarea id="pedidoTexto" rows="2" placeholder="Escribe aquí tu pedido: producto(s), colores, medidas, fecha, etc."></textarea>
+    <div class="row">
+      <button type="button" class="btn" id="btnVaciar">Vaciar</button>
+      <button type="submit" class="btn primary" id="btnEnviar">Enviar pedido por email</button>
+      <button type="button" class="btn" id="btnGmail" title="Abrir Gmail con el pedido">Enviar con Gmail</button>
+      <button type="button" class="btn" id="btnCopiar" title="Copiar el pedido al portapapeles">Copiar pedido</button>
+    </div>
+  </form>
+</div>
 
   <!-- Modal reutilizable -->
   <dialog id="modal">
@@ -297,6 +299,28 @@ pedidoForm.addEventListener('submit', (e) => {
   const asunto = encodeURIComponent('Encargo Costurnina');
   const cuerpo = encodeURIComponent((pedidoTexto.value || '').trim() || 'Hola, me gustaría encargar:\n- (escribe aquí tu pedido)\n');
   window.location.href = `mailto:${EMAIL_DESTINO}?subject=${asunto}&body=${cuerpo}`;
+});
+
+    // ===== EXTRAS: Gmail y Copiar =====
+const btnGmail = document.getElementById('btnGmail');
+const btnCopiar = document.getElementById('btnCopiar');
+
+btnGmail.addEventListener('click', () => {
+  const asunto = encodeURIComponent('Encargo Costurnina');
+  const cuerpo  = encodeURIComponent((pedidoTexto.value || '').trim());
+  const to = encodeURIComponent(EMAIL_DESTINO);
+  const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${asunto}&body=${cuerpo}`;
+  // Abre Gmail en una pestaña nueva
+  window.open(url, '_blank');
+});
+
+btnCopiar.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(pedidoTexto.value || '');
+    alert('Pedido copiado. Abre tu correo y pégalo.');
+  } catch (err) {
+    alert('No se pudo copiar automáticamente. Selecciona y copia el texto manualmente.');
+  }
 });
 
 // ===== CLICK EN TARJETA -> AÑADIR AL PEDIDO =====
