@@ -5,25 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Costurnina · Hecho a mano</title>
   <meta name="description" content="Artesanía en ganchillo, costura y punto de cruz. Hecho a mano por mamá. Encargos por email.">
-  <!--
-  ⚠️ INSTRUCCIONES (sin carpetas):
-  - Sube este archivo como index.html a la RAÍZ del repositorio.
-  - Sube todas las imágenes a la RAÍZ también (nada de /assets).
-  - Renombra tus fotos a estos nombres (o cámbialos aquí):
-    presentacion-1.jpg, presentacion-2.jpg
-    madre-1.jpg, madre-2.jpg, madre-3.jpg, madre-4.jpg, trabajando-1.jpg, trabajando-2.jpg
-    bolso-rana.png, rosa-arcoiris.png, ramo-rosas.png, rosa-roja.png
-  - Cambia el EMAIL_DESTINO más abajo si hace falta.
-  -->
   <style>
-    /* Campo de pedido en la barra */
-.dock textarea{
-  flex:1; min-width:260px; max-height:40vh; resize:vertical;
-  padding:10px 12px; border:1px solid rgba(255,255,255,.12);
-  border-radius:12px; background:rgba(255,255,255,.03); color:var(--text);
-  font: inherit;
-}
-.dock .row{display:flex; gap:10px; align-items:center}
     :root{
       --bg:#0b0c10; --bg2:#0e1117; --card:#111319; --text:#eaf2f8; --muted:#a7b3bd;
       --brand:#69b1ff; --brand2:#ffd166; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
@@ -38,7 +20,6 @@
     .wrap{max-width:1200px;margin:0 auto;padding:18px}
     .row{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
     .brand{display:flex;gap:10px;align-items:center;font-weight:800}
-    .logo{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:var(--shadow)}
     nav{display:flex;gap:12px;flex-wrap:wrap}
     nav a{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);}
 
@@ -72,10 +53,7 @@
     .thumb{aspect-ratio:4/3;border-radius:14px;background:#0b0e14 center/cover no-repeat;border:1px solid rgba(255,255,255,.06);cursor:pointer}
 
     /* Catálogo */
-    .toolbar{display:grid;grid-template-columns:1fr auto;gap:12px;margin:8px 0 6px}
-    .chips{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.1);cursor:pointer}
-    .chip.active{background:linear-gradient(135deg,rgba(105,177,255,.15),rgba(255,209,102,.15));border-color:rgba(255,255,255,.22)}
+    .toolbar{display:flex;justify-content:flex-end;gap:12px;margin:8px 0 6px}
     .search{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.03)}
     .search input{all:unset;width:220px}
     .grid{display:grid;gap:14px;grid-template-columns:repeat(1,minmax(0,1fr));}
@@ -88,20 +66,16 @@
     .meta{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
     .tag{font-size:12px;color:#0b0c10;background:linear-gradient(135deg,var(--brand),var(--brand2));padding:4px 8px;border-radius:999px}
     .desc{color:var(--muted);font-size:14px;margin:6px 0 10px;min-height:38px}
-    .actions{display:flex;gap:10px;margin:6px 0 12px}
+    /* Tarjetas clicables y feedback al añadir */
+.p-card { cursor: pointer; }
+.p-card.added { outline: 2px solid rgba(105,177,255,.35); }
+    
+    /* Barra de pedido (texto libre) */
+    .dock{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:60;max-width:1200px;width:calc(100% - 24px);}
+    .dock-inner{background:rgba(17,19,25,.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px}
+    .dock textarea{flex:1;min-width:260px;max-height:40vh;resize:vertical;padding:10px 12px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.03);color:var(--text);font:inherit}
+    .dock .row{display:flex;gap:10px;align-items:center}
 
-    /* Barra de pedido */
-    <!-- Barra de pedido por email (texto libre) -->
-<div class="dock" aria-live="polite">
-  <form class="dock-inner" id="pedidoForm">
-    <textarea id="pedidoTexto" rows="2"
-      placeholder="Escribe aquí tu pedido: producto(s), colores, medidas, fecha, etc."></textarea>
-    <div class="row">
-      <button type="button" class="btn" id="btnVaciar">Vaciar</button>
-      <button type="submit" class="btn primary" id="btnEnviar">Enviar pedido por email</button>
-    </div>
-  </form>
-</div>
     /* Modal reutilizable */
     dialog{border:none;border-radius:18px;max-width:860px;width:calc(100% - 24px);background:#0e1218;color:var(--text);box-shadow:var(--shadow)}
     dialog::backdrop{background:rgba(0,0,0,.55)}
@@ -119,9 +93,9 @@
   <header>
     <div class="wrap row">
       <div class="brand">
-  <img src="logo-icon.png?v=1" alt="Costurnina" width="42" height="42" style="border-radius:12px;vertical-align:middle">
-  <div>Costurnina</div>
-</div>
+        <img src="logo-icon.png?v=1" alt="Costurnina" width="42" height="42" style="border-radius:12px;vertical-align:middle">
+        <div>Costurnina</div>
+      </div>
       <nav aria-label="Principal">
         <a href="#inicio">Inicio</a>
         <a href="#presentacion">Quiénes somos</a>
@@ -132,7 +106,7 @@
     </div>
   </header>
 
-  <!-- HERO / PRESENTACIÓN CORTA -->
+  <!-- HERO -->
   <section id="inicio" class="hero">
     <div class="wrap hero-grid">
       <div>
@@ -148,7 +122,7 @@
     </div>
   </section>
 
-  <!-- PRESENTACIÓN LARGA -->
+  <!-- PRESENTACIÓN -->
   <section id="presentacion">
     <div class="wrap about card">
       <div class="photo" role="img" aria-label="Retrato en el taller"></div>
@@ -161,7 +135,7 @@
     </div>
   </section>
 
-  <!-- FOTOS DEL TALLER -->
+  <!-- FOTOS -->
   <section id="fotos">
     <div class="wrap">
       <h2>Fotos del taller</h2>
@@ -179,81 +153,78 @@
 
   <!-- CATÁLOGO -->
   <section id="catalogo">
-  <div class="wrap">
-    <h2>Catálogo</h2>
-    <p class="sub">Selecciona artículos para armar tu pedido por email. No hay compra online.</p>
+    <div class="wrap">
+      <h2>Catálogo</h2>
+      <p class="sub">Selecciona artículos para armar tu pedido por email. No hay compra online.</p>
 
-    <div class="toolbar">
-      <label class="search" aria-label="Buscar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input id="q" placeholder="Buscar color, tipo, tamaño…" autocomplete="off" />
-      </label>
-    </div>
+      <div class="toolbar">
+        <label class="search" aria-label="Buscar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="q" placeholder="Buscar color, tipo, tamaño…" autocomplete="off" />
+        </label>
+      </div>
 
-    <div class="grid" id="grid">
-      <!-- Productos -->
-      <article class="card p-card" data-category="ganchillo" data-title="Bolso rana" data-tags="bolso, rana, verde, infantil, amigurumi">
-        <div class="p-thumb" style="background-image:url('bolso-rana.png')" role="img" aria-label="Bolso rana"></div>
-        <div class="content">
-          <div class="title">Bolso rana · Ganchillo</div>
-          <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Hecho a mano</span></div>
-          <p class="desc">Bolso de crochet con carita de rana y asa trenzada. Colores y tamaño personalizables.</p>
-        </div>
-      </article>
+      <div class="grid" id="grid">
+        <article class="card p-card" data-category="ganchillo" data-title="Bolso rana" data-tags="bolso, rana, verde, infantil, amigurumi">
+          <div class="p-thumb" style="background-image:url('bolso-rana.png')" role="img" aria-label="Bolso rana"></div>
+          <div class="content">
+            <div class="title">Bolso rana · Ganchillo</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Hecho a mano</span></div>
+            <p class="desc">Bolso de crochet con carita de rana y asa trenzada. Colores y tamaño personalizables.</p>
+          </div>
+        </article>
 
-      <article class="card p-card" data-category="ganchillo" data-title="Rosa arcoíris" data-tags="flor, rosa, arcoiris, regalo, san jordi">
-        <div class="p-thumb" style="background-image:url('rosa-arcoiris.png')" role="img" aria-label="Rosa arcoíris"></div>
-        <div class="content">
-          <div class="title">Rosa arcoíris · Crochet</div>
-          <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Personalizable</span></div>
-          <p class="desc">Rosa multicolor tejida a mano. Ideal para regalo. Se puede elegir combinación de colores.</p>
-        </div>
-      </article>
+        <article class="card p-card" data-category="ganchillo" data-title="Rosa arcoíris" data-tags="flor, rosa, arcoiris, regalo, san jordi">
+          <div class="p-thumb" style="background-image:url('rosa-arcoiris.png')" role="img" aria-label="Rosa arcoíris"></div>
+          <div class="content">
+            <div class="title">Rosa arcoíris · Crochet</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Personalizable</span></div>
+            <p class="desc">Rosa multicolor tejida a mano. Ideal para regalo. Se puede elegir combinación de colores.</p>
+          </div>
+        </article>
 
-      <article class="card p-card" data-category="ganchillo" data-title="Ramo de rosas" data-tags="ramo, rosas, colores, decoración">
-        <div class="p-thumb" style="background-image:url('ramo-rosas.png')" role="img" aria-label="Ramo de rosas"></div>
-        <div class="content">
-          <div class="title">Ramo de rosas · Crochet</div>
-          <div class="meta"><span class="tag">Ganchillo</span><span class="tag">A medida</span></div>
-          <p class="desc">Composición de rosas de crochet. Cantidad y colores a elegir.</p>
-        </div>
-      </article>
+        <article class="card p-card" data-category="ganchillo" data-title="Ramo de rosas" data-tags="ramo, rosas, colores, decoración">
+          <div class="p-thumb" style="background-image:url('ramo-rosas.png')" role="img" aria-label="Ramo de rosas"></div>
+          <div class="content">
+            <div class="title">Ramo de rosas · Crochet</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">A medida</span></div>
+            <p class="desc">Composición de rosas de crochet. Cantidad y colores a elegir.</p>
+          </div>
+        </article>
 
-      <article class="card p-card" data-category="ganchillo" data-title="Bolsa F.C. Barcelona" data-tags="bolsa, barcelona, fútbol, azulgrana, crochet">
-        <!-- Evita espacios en el nombre del archivo o usa %20 -->
-        <div class="p-thumb" style="background-image:url('bolsa-fcbarcelona.jpeg')" role="img" aria-label="Bolsa F.C. Barcelona"></div>
-        <div class="content">
-          <div class="title">Bolsa F.C. Barcelona · Ganchillo</div>
-          <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Hecho a mano</span></div>
-          <p class="desc">Bolsa de crochet del F.C. Barcelona. Tamaño personalizable.</p>
-        </div>
-      </article>
+        <article class="card p-card" data-category="ganchillo" data-title="Bolsa F.C. Barcelona" data-tags="bolsa, barcelona, fútbol, azulgrana, crochet">
+          <div class="p-thumb" style="background-image:url('bolsa-fcbarcelona.jpeg')" role="img" aria-label="Bolsa F.C. Barcelona"></div>
+          <div class="content">
+            <div class="title">Bolsa F.C. Barcelona · Ganchillo</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Hecho a mano</span></div>
+            <p class="desc">Bolsa de crochet del F.C. Barcelona. Tamaño personalizable.</p>
+          </div>
+        </article>
 
-      <article class="card p-card" data-category="ganchillo" data-title="Bolsito" data-tags="bolso, pequeño, regalo, crochet">
-        <div class="p-thumb" style="background-image:url('bolsos-animados.png')" role="img" aria-label="Bolsito"></div>
-        <div class="content">
-          <div class="title">Bolsito · Crochet</div>
-          <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Regalo</span></div>
-          <p class="desc">Bolso de crochet personalizable. Perfecto para detalles especiales.</p>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-
-  <!-- Barra de pedido por email -->
-  <div class="dock" aria-live="polite">
-    <div class="dock-inner">
-      <div class="pill" id="pedidoInfo">Pedido vacío</div>
-      <div class="row">
-        <button class="btn" id="btnVaciar">Vaciar</button>
-        <button class="btn primary" id="btnEnviar">Enviar pedido por email</button>
+        <article class="card p-card" data-category="ganchillo" data-title="Bolsito" data-tags="bolso, pequeño, regalo, crochet">
+          <div class="p-thumb" style="background-image:url('bolsos-animados.png')" role="img" aria-label="Bolsito"></div>
+          <div class="content">
+            <div class="title">Bolsito · Crochet</div>
+            <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Regalo</span></div>
+            <p class="desc">Bolso de crochet personalizable. Perfecto para detalles especiales.</p>
+          </div>
+        </article>
       </div>
     </div>
+  </section>
+
+  <!-- Barra de pedido por email (TEXTO LIBRE) -->
+  <div class="dock" aria-live="polite">
+    <form class="dock-inner" id="pedidoForm">
+      <textarea id="pedidoTexto" rows="2" placeholder="Escribe aquí tu pedido: producto(s), colores, medidas, fecha, etc."></textarea>
+      <div class="row">
+        <button type="button" class="btn" id="btnVaciar">Vaciar</button>
+        <button type="submit" class="btn primary" id="btnEnviar">Enviar pedido por email</button>
+      </div>
+    </form>
   </div>
 
-  <!-- Modal reutilizable (detalles + lightbox de fotos) -->
+  <!-- Modal reutilizable -->
   <dialog id="modal">
     <div class="modal-header">
       <strong id="mTitle">Detalles</strong>
@@ -283,15 +254,15 @@
 
   <script>
     // ===== CONFIG =====
-    const EMAIL_DESTINO = 'costurnina@gmail.com'; // cámbialo si hace falta
-    const NOMBRE_MADRE = 'tu madre'; // pon aquí el nombre (ej: 'María')
+    const EMAIL_DESTINO = 'costurnina@gmail.com';
+    const NOMBRE_MADRE = 'tu madre';
 
-    // Rellena el nombre automáticamente
+    // Rellena nombre
     document.getElementById('nombreMadre').textContent = NOMBRE_MADRE;
     document.getElementById('nombreMadre2').textContent = NOMBRE_MADRE;
     document.getElementById('nombreMadre3').textContent = NOMBRE_MADRE;
 
-    // ===== GALERÍA FOTOS (lightbox sencillo reutilizando el modal) =====
+    // ===== FOTOS (lightbox) =====
     document.querySelectorAll('.gallery .thumb').forEach(el => {
       el.addEventListener('click', ()=>{
         const modal = document.getElementById('modal');
@@ -303,11 +274,28 @@
       });
     });
 
-    // ===== CATÁLOGO =====
+    // ===== CATÁLOGO (buscador) =====
+    // ===== CLICK EN TARJETA -> AÑADIR AL PEDIDO =====
+function addToPedido(nombre) {
+  const line = `- ${nombre}`;
+  const current = (pedidoTexto.value || '').trim();
+  const lines = current ? current.split(/\r?\n/).filter(Boolean) : [];
+  const exists = lines.some(l => l.trim().toLowerCase() === line.toLowerCase());
+  if (!exists) {
+    pedidoTexto.value = (current ? current + '\n' : '') + line;
+  }
+}
+
+grid.addEventListener('click', (e) => {
+  const card = e.target.closest('.p-card');
+  if (!card) return;
+  const nombre = card.querySelector('.title')?.textContent.trim();
+  if (!nombre) return;
+  addToPedido(nombre);
+  card.classList.add('added'); // feedback visual
+});
     const grid = document.getElementById('grid');
     const q = document.getElementById('q');
-    const pedidoInfo = document.getElementById('pedidoInfo');
-
     q.addEventListener('input', () => {
       const term = q.value.toLowerCase();
       [...grid.children].forEach(card => {
@@ -317,43 +305,24 @@
       });
     });
 
-    grid.addEventListener('click', (e) => {
-      const card = e.target.closest('.card');
-      if (!card) return;
-      if (e.target.matches('[data-add]')) {
-        const nombre = card.querySelector('.title').textContent.trim();
-        pedido.push(nombre);
-        renderPedido();
-      }
-      if (e.target.matches('[data-details]')) {
-        const modal = document.getElementById('modal');
-        document.getElementById('mTitle').textContent = card.querySelector('.title').textContent;
-        document.getElementById('mDesc').textContent = card.querySelector('.desc').textContent;
-        const style = card.querySelector('.p-thumb').getAttribute('style') || '';
-        document.getElementById('mImg').setAttribute('style', style + '; border-radius:14px');
-        modal.showModal();
-      }
-    });
-
-    document.getElementById('mClose').addEventListener('click', () => document.getElementById('modal').close());
-
-    document.getElementById('btnVaciar').addEventListener('click', () => { pedido.length = 0; renderPedido(); });
-    document.getElementById('btnEnviar').addEventListener('click', () => {
+    // ===== PEDIDO TEXTO LIBRE =====
+    const pedidoForm = document.getElementById('pedidoForm');
+    const pedidoTexto = document.getElementById('pedidoTexto');
+    document.getElementById('btnVaciar').addEventListener('click', () => { pedidoTexto.value = ''; });
+    pedidoForm.addEventListener('submit', (e) => {
+      e.preventDefault();
       const asunto = encodeURIComponent('Encargo Costurnina');
-      const cuerpo = encodeURIComponent(
-        `Hola, me gustaría encargar:\n\n` +
-        (pedido.length ? `Artículos seleccionados:\n- ${pedido.join('\n- ')}\n\n` : '') +
-        `Detalles (colores, medidas, fecha límite, etc.):\n`);
+      const cuerpo = encodeURIComponent((pedidoTexto.value || '').trim() || 'Hola, me gustaría encargar:\n- (escribe aquí tu pedido)\n');
       window.location.href = `mailto:${EMAIL_DESTINO}?subject=${asunto}&body=${cuerpo}`;
     });
 
-    function renderPedido(){
-      if (pedido.length === 0) pedidoInfo.textContent = 'Pedido vacío';
-      else pedidoInfo.textContent = `${pedido.length} artículo(s): ` + pedido.join(' · ');
-    }
-
+    // Año en footer
     document.getElementById('year').textContent = new Date().getFullYear();
+    // Cerrar modal con botón
+    document.getElementById('mClose').addEventListener('click', () => document.getElementById('modal').close());
+    // Cerrar modal con ESC
     window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('modal'); if(m.open) m.close(); }});
   </script>
 </body>
 </html>
+
