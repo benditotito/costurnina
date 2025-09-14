@@ -16,6 +16,14 @@
   - Cambia el EMAIL_DESTINO más abajo si hace falta.
   -->
   <style>
+    /* Campo de pedido en la barra */
+.dock textarea{
+  flex:1; min-width:260px; max-height:40vh; resize:vertical;
+  padding:10px 12px; border:1px solid rgba(255,255,255,.12);
+  border-radius:12px; background:rgba(255,255,255,.03); color:var(--text);
+  font: inherit;
+}
+.dock .row{display:flex; gap:10px; align-items:center}
     :root{
       --bg:#0b0c10; --bg2:#0e1117; --card:#111319; --text:#eaf2f8; --muted:#a7b3bd;
       --brand:#69b1ff; --brand2:#ffd166; --radius:18px; --shadow:0 10px 30px rgba(0,0,0,.35);
@@ -83,10 +91,17 @@
     .actions{display:flex;gap:10px;margin:6px 0 12px}
 
     /* Barra de pedido */
-    .dock{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:60;max-width:1200px;width:calc(100% - 24px);}
-    .dock-inner{background:rgba(17,19,25,.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px}
-    .pill{font-size:13px;color:var(--muted)}
-
+    <!-- Barra de pedido por email (texto libre) -->
+<div class="dock" aria-live="polite">
+  <form class="dock-inner" id="pedidoForm">
+    <textarea id="pedidoTexto" rows="2"
+      placeholder="Escribe aquí tu pedido: producto(s), colores, medidas, fecha, etc."></textarea>
+    <div class="row">
+      <button type="button" class="btn" id="btnVaciar">Vaciar</button>
+      <button type="submit" class="btn primary" id="btnEnviar">Enviar pedido por email</button>
+    </div>
+  </form>
+</div>
     /* Modal reutilizable */
     dialog{border:none;border-radius:18px;max-width:860px;width:calc(100% - 24px);background:#0e1218;color:var(--text);box-shadow:var(--shadow)}
     dialog::backdrop{background:rgba(0,0,0,.55)}
@@ -289,7 +304,6 @@
     });
 
     // ===== CATÁLOGO =====
-    const pedido = [];
     const grid = document.getElementById('grid');
     const q = document.getElementById('q');
     const pedidoInfo = document.getElementById('pedidoInfo');
