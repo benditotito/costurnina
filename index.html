@@ -120,7 +120,7 @@
       <div>
         <div class="kicker">Hecho a mano en Barcelona</div>
         <h1>Artesanía en ganchillo, costura y punto de cruz</h1>
-        <p class="lead">Cada pieza está creada por mamá con mimo y detalle. Trabajamos por encargo para que recibas algo único, pensado para ti.</p>
+        <p class="lead">Cada pieza está creada por <strong id="nombreMadre">tu madre</strong> con mimo y detalle. Trabajamos por encargo para que recibas algo único, pensado para ti.</p>
         <div class="cta">
           <a class="btn primary" href="#presentacion">Conoce el taller</a>
           <a class="btn" href="#catalogo">Ver productos</a>
@@ -135,9 +135,9 @@
     <div class="wrap about card">
       <div class="photo" role="img" aria-label="Retrato en el taller"></div>
       <div class="copy">
-        <h2>El taller de <span id="nombreMadre2">La Guille</span></h2>
+        <h2>El taller de <span id="nombreMadre2">tu madre</span></h2>
         <p class="sub">Personaliza este texto con su historia.</p>
-        <p>Hola, soy Guillermina. Desde pequeña me apasiona el hilo y la aguja. En Costurnina doy vida a bolsos, rosas de crochet, detalles de costura y bastidores en punto de cruz. Me encanta trabajar por encargo: tú me cuentas tu idea y yo la convierto en una pieza única.</p>
+        <p>Hola, soy <strong id="nombreMadre3">tu madre</strong>. Desde pequeña me apasiona el hilo y la aguja. En Costurnina doy vida a <em>amigurumis</em>, bolsos, rosas de crochet, detalles de costura y bastidores en punto de cruz. Me encanta trabajar por encargo: tú me cuentas tu idea y yo la convierto en una pieza única.</p>
         <p>Materiales de calidad, acabados cuidados y un proceso artesanal en cada paso. Si tienes un regalo especial en mente, estaré encantada de ayudarte.</p>
       </div>
     </div>
@@ -168,7 +168,15 @@
       <div class="toolbar">
         <div class="chips" role="tablist" aria-label="Filtrar por categoría">
           <button class="chip active" data-filter="all" role="tab" aria-selected="true">Todo</button>
+          <button class="chip" data-filter="ganchillo" role="tab">Ganchillo</button>
+          <button class="chip" data-filter="costura" role="tab">Costura</button>
+          <button class="chip" data-filter="punto" role="tab">Punto de cruz</button>
         </div>
+        <label class="search" aria-label="Buscar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="q" placeholder="Buscar color, tipo, tamaño…" autocomplete="off" />
+        </label>
+      </div>
 
       <div class="grid" id="grid">
         <!-- PRODUCTOS DE EJEMPLO (usa tus fotos reales en la raíz) -->
@@ -177,7 +185,10 @@
           <div class="content">
             <div class="title">Bolso rana · Ganchillo</div>
             <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Hecho a mano</span></div>
-            <p class="desc">Bolso de crochet con carita de rana y asa trenzada. Colores y tamaño personalizables.</p>            
+            <p class="desc">Bolso de crochet con carita de rana y asa trenzada. Colores y tamaño personalizables.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
             </div>
           </div>
         </article>
@@ -187,7 +198,10 @@
           <div class="content">
             <div class="title">Rosa arcoíris · Crochet</div>
             <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Personalizable</span></div>
-            <p class="desc">Rosa multicolor tejida a mano. Ideal para regalo. Se puede elegir combinación de colores.</p>            
+            <p class="desc">Rosa multicolor tejida a mano. Ideal para regalo. Se puede elegir combinación de colores.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
             </div>
           </div>
         </article>
@@ -197,7 +211,10 @@
           <div class="content">
             <div class="title">Ramo de rosas · Crochet</div>
             <div class="meta"><span class="tag">Ganchillo</span><span class="tag">A medida</span></div>
-            <p class="desc">Composición de rosas de crochet. Cantidad y colores a elegir.</p>            
+            <p class="desc">Composición de rosas de crochet. Cantidad y colores a elegir.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
             </div>
           </div>
         </article>
@@ -207,7 +224,10 @@
           <div class="content">
             <div class="title">Rosa roja · Crochet</div>
             <div class="meta"><span class="tag">Ganchillo</span><span class="tag">Regalo</span></div>
-            <p class="desc">Rosa de crochet con envoltorio de malla. Perfecta para detalles especiales.</p>            
+            <p class="desc">Rosa de crochet con envoltorio de malla. Perfecta para detalles especiales.</p>
+            <div class="actions">
+              <button class="btn primary" data-add>➕ Añadir</button>
+              <button class="btn" data-details>Detalles</button>
             </div>
           </div>
         </article>
@@ -248,7 +268,7 @@
       </div>
       <div class="footer-card">
         <h2>Sobre el taller</h2>
-        <p class="small">Piezas hechas a mano en Barcelona. Trabajamos por encargo para que cada pieza sea única. Tiempo de elaboración estimado: 7–14 días según el encargo.</p>
+        <p class="small">Piezas hechas a mano en Barcelona. Trabajamos por encargo para que cada pieza sea única. Tiempo de elaboración estimado: 3–10 días según el encargo.</p>
       </div>
     </div>
     <div class="wrap small" style="opacity:.7; padding:14px 18px 70px">© <span id="year"></span> Costurnina — Artesanía</div>
@@ -257,7 +277,7 @@
   <script>
     // ===== CONFIG =====
     const EMAIL_DESTINO = 'costurnina@gmail.com'; // cámbialo si hace falta
-    const NOMBRE_MADRE = 'Guillermina'; // pon aquí el nombre (ej: 'María')
+    const NOMBRE_MADRE = 'tu madre'; // pon aquí el nombre (ej: 'María')
 
     // Rellena el nombre automáticamente
     document.getElementById('nombreMadre').textContent = NOMBRE_MADRE;
