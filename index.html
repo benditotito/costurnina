@@ -274,8 +274,32 @@
       });
     });
 
-    // ===== CATÁLOGO (buscador) =====
-    // ===== CLICK EN TARJETA -> AÑADIR AL PEDIDO =====
+   // ===== CATÁLOGO (buscador) =====
+const grid = document.getElementById('grid');
+const q = document.getElementById('q');
+
+q.addEventListener('input', () => {
+  const term = q.value.toLowerCase();
+  [...grid.children].forEach(card => {
+    const hay = (card.dataset.title + ' ' + card.dataset.tags).toLowerCase().includes(term);
+    card.style.opacity = hay ? 1 : .15;
+    card.style.pointerEvents = hay ? 'auto' : 'none';
+  });
+});
+
+// ===== PEDIDO TEXTO LIBRE =====
+const pedidoForm = document.getElementById('pedidoForm');
+const pedidoTexto = document.getElementById('pedidoTexto');
+
+document.getElementById('btnVaciar').addEventListener('click', () => { pedidoTexto.value = ''; });
+pedidoForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const asunto = encodeURIComponent('Encargo Costurnina');
+  const cuerpo = encodeURIComponent((pedidoTexto.value || '').trim() || 'Hola, me gustaría encargar:\n- (escribe aquí tu pedido)\n');
+  window.location.href = `mailto:${EMAIL_DESTINO}?subject=${asunto}&body=${cuerpo}`;
+});
+
+// ===== CLICK EN TARJETA -> AÑADIR AL PEDIDO =====
 function addToPedido(nombre) {
   const line = `- ${nombre}`;
   const current = (pedidoTexto.value || '').trim();
@@ -294,6 +318,7 @@ grid.addEventListener('click', (e) => {
   addToPedido(nombre);
   card.classList.add('added'); // feedback visual
 });
+    
     const grid = document.getElementById('grid');
     const q = document.getElementById('q');
     q.addEventListener('input', () => {
