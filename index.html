@@ -255,123 +255,97 @@
   </section>
 
   <script>
-    // ===== CONFIG =====
-    const EMAIL_DESTINO = 'costurnina@gmail.com';
-    const NOMBRE_MADRE = 'tu madre';
+  // ===== CONFIG =====
+  const EMAIL_DESTINO = 'costurnina@gmail.com';
+  const NOMBRE_MADRE = 'tu madre';
 
-    // Rellena nombre
-    document.getElementById('nombreMadre').textContent = NOMBRE_MADRE;
-    document.getElementById('nombreMadre2').textContent = NOMBRE_MADRE;
-    document.getElementById('nombreMadre3').textContent = NOMBRE_MADRE;
+  // Rellena nombre
+  document.getElementById('nombreMadre').textContent = NOMBRE_MADRE;
+  document.getElementById('nombreMadre2').textContent = NOMBRE_MADRE;
+  document.getElementById('nombreMadre3').textContent = NOMBRE_MADRE;
 
-    // ===== FOTOS (lightbox) =====
-    document.querySelectorAll('.gallery .thumb').forEach(el => {
-      el.addEventListener('click', ()=>{
-        const modal = document.getElementById('modal');
-        document.getElementById('mTitle').textContent = 'Foto del taller';
-        document.getElementById('mDesc').textContent = '';
-        const url = el.getAttribute('data-full') || '';
-        document.getElementById('mImg').setAttribute('style', `background-image:url('${url}');border-radius:14px;aspect-ratio:4/3;background-size:cover;background-position:center;`);
-        modal.showModal();
-      });
+  // ===== FOTOS (lightbox) =====
+  document.querySelectorAll('.gallery .thumb').forEach(el => {
+    el.addEventListener('click', ()=>{
+      const modal = document.getElementById('modal');
+      document.getElementById('mTitle').textContent = 'Foto del taller';
+      document.getElementById('mDesc').textContent = '';
+      const url = el.getAttribute('data-full') || '';
+      document.getElementById('mImg').setAttribute('style', `background-image:url('${url}');border-radius:14px;aspect-ratio:4/3;background-size:cover;background-position:center;`);
+      modal.showModal();
     });
-
-   // ===== CATÁLOGO (buscador) =====
-const grid = document.getElementById('grid');
-const q = document.getElementById('q');
-
-q.addEventListener('input', () => {
-  const term = q.value.toLowerCase();
-  [...grid.children].forEach(card => {
-    const hay = (card.dataset.title + ' ' + card.dataset.tags).toLowerCase().includes(term);
-    card.style.opacity = hay ? 1 : .15;
-    card.style.pointerEvents = hay ? 'auto' : 'none';
   });
-});
 
-// ===== PEDIDO TEXTO LIBRE =====
-const pedidoForm = document.getElementById('pedidoForm');
-const pedidoTexto = document.getElementById('pedidoTexto');
-
-document.getElementById('btnVaciar').addEventListener('click', () => { pedidoTexto.value = ''; });
-pedidoForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const asunto = encodeURIComponent('Encargo Costurnina');
-  const cuerpo = encodeURIComponent((pedidoTexto.value || '').trim() || 'Hola, me gustaría encargar:\n- (escribe aquí tu pedido)\n');
-  window.location.href = `mailto:${EMAIL_DESTINO}?subject=${asunto}&body=${cuerpo}`;
-});
-
-    // ===== EXTRAS: Gmail y Copiar =====
-const btnGmail = document.getElementById('btnGmail');
-const btnCopiar = document.getElementById('btnCopiar');
-
-btnGmail.addEventListener('click', () => {
-  const asunto = encodeURIComponent('Encargo Costurnina');
-  const cuerpo  = encodeURIComponent((pedidoTexto.value || '').trim());
-  const to = encodeURIComponent(EMAIL_DESTINO);
-  const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${asunto}&body=${cuerpo}`;
-  // Abre Gmail en una pestaña nueva
-  window.open(url, '_blank');
-});
-
-btnCopiar.addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText(pedidoTexto.value || '');
-    alert('Pedido copiado. Abre tu correo y pégalo.');
-  } catch (err) {
-    alert('No se pudo copiar automáticamente. Selecciona y copia el texto manualmente.');
-  }
-});
-
-// ===== CLICK EN TARJETA -> AÑADIR AL PEDIDO =====
-function addToPedido(nombre) {
-  const line = `- ${nombre}`;
-  const current = (pedidoTexto.value || '').trim();
-  const lines = current ? current.split(/\r?\n/).filter(Boolean) : [];
-  const exists = lines.some(l => l.trim().toLowerCase() === line.toLowerCase());
-  if (!exists) {
-    pedidoTexto.value = (current ? current + '\n' : '') + line;
-  }
-}
-
-grid.addEventListener('click', (e) => {
-  const card = e.target.closest('.p-card');
-  if (!card) return;
-  const nombre = card.querySelector('.title')?.textContent.trim();
-  if (!nombre) return;
-  addToPedido(nombre);
-  card.classList.add('added'); // feedback visual
-});
-    
-    const grid = document.getElementById('grid');
-    const q = document.getElementById('q');
-    q.addEventListener('input', () => {
-      const term = q.value.toLowerCase();
-      [...grid.children].forEach(card => {
-        const hay = (card.dataset.title + ' ' + card.dataset.tags).toLowerCase().includes(term);
-        card.style.opacity = hay ? 1 : .15;
-        card.style.pointerEvents = hay ? 'auto' : 'none';
-      });
+  // ===== CATÁLOGO (buscador) =====
+  const grid = document.getElementById('grid');
+  const q = document.getElementById('q');
+  q.addEventListener('input', () => {
+    const term = q.value.toLowerCase();
+    [...grid.children].forEach(card => {
+      const hay = (card.dataset.title + ' ' + card.dataset.tags).toLowerCase().includes(term);
+      card.style.opacity = hay ? 1 : .15;
+      card.style.pointerEvents = hay ? 'auto' : 'none';
     });
+  });
 
-    // ===== PEDIDO TEXTO LIBRE =====
-    const pedidoForm = document.getElementById('pedidoForm');
-    const pedidoTexto = document.getElementById('pedidoTexto');
-    document.getElementById('btnVaciar').addEventListener('click', () => { pedidoTexto.value = ''; });
-    pedidoForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const asunto = encodeURIComponent('Encargo Costurnina');
-      const cuerpo = encodeURIComponent((pedidoTexto.value || '').trim() || 'Hola, me gustaría encargar:\n- (escribe aquí tu pedido)\n');
-      window.location.href = `mailto:${EMAIL_DESTINO}?subject=${asunto}&body=${cuerpo}`;
-    });
+  // ===== PEDIDO TEXTO LIBRE =====
+  const pedidoForm = document.getElementById('pedidoForm');
+  const pedidoTexto = document.getElementById('pedidoTexto');
 
-    // Año en footer
-    document.getElementById('year').textContent = new Date().getFullYear();
-    // Cerrar modal con botón
-    document.getElementById('mClose').addEventListener('click', () => document.getElementById('modal').close());
-    // Cerrar modal con ESC
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('modal'); if(m.open) m.close(); }});
-  </script>
+  document.getElementById('btnVaciar').addEventListener('click', () => { pedidoTexto.value = ''; });
+  pedidoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const asunto = encodeURIComponent('Encargo Costurnina');
+    const cuerpo = encodeURIComponent((pedidoTexto.value || '').trim() || 'Hola, me gustaría encargar:\n- (escribe aquí tu pedido)\n');
+    window.location.href = `mailto:${EMAIL_DESTINO}?subject=${asunto}&body=${cuerpo}`;
+  });
+
+  // ===== EXTRAS: Gmail y Copiar =====
+  const btnGmail = document.getElementById('btnGmail');
+  const btnCopiar = document.getElementById('btnCopiar');
+
+  btnGmail.addEventListener('click', () => {
+    const asunto = encodeURIComponent('Encargo Costurnina');
+    const cuerpo  = encodeURIComponent((pedidoTexto.value || '').trim());
+    const to = encodeURIComponent(EMAIL_DESTINO);
+    const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${asunto}&body=${cuerpo}`;
+    window.open(url, '_blank'); // puede requerir permitir pop-ups
+  });
+
+  btnCopiar.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(pedidoTexto.value || '');
+      alert('Pedido copiado. Abre tu correo y pégalo.');
+    } catch {
+      alert('No se pudo copiar automáticamente. Selecciona y copia el texto manualmente.');
+    }
+  });
+
+  // ===== CLICK EN TARJETA -> AÑADIR AL PEDIDO =====
+  function addToPedido(nombre) {
+    const line = `- ${nombre}`;
+    const current = (pedidoTexto.value || '').trim();
+    const lines = current ? current.split(/\r?\n/).filter(Boolean) : [];
+    const exists = lines.some(l => l.trim().toLowerCase() === line.toLowerCase());
+    if (!exists) {
+      pedidoTexto.value = (current ? current + '\n' : '') + line;
+    }
+  }
+
+  grid.addEventListener('click', (e) => {
+    const card = e.target.closest('.p-card');
+    if (!card) return;
+    const nombre = card.querySelector('.title')?.textContent.trim();
+    if (!nombre) return;
+    addToPedido(nombre);
+    card.classList.add('added');
+  });
+
+  // Año y modal
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('mClose').addEventListener('click', () => document.getElementById('modal').close());
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('modal'); if(m.open) m.close(); }});
+</script>
 </body>
 </html>
 
